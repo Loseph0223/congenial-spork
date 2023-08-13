@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Conversión</title>
+<script>
+function setLanguage(language) {
+    var titulo = document.getElementById("titulo");
+    var monedaAMonedaLabel = document.getElementById("monedaAMonedaLabel");
+    var monedaRobuxLabel = document.getElementById("monedaRobuxLabel");
+    var convertirMonedaToRobuxButton = document.getElementById("convertirMonedaToRobuxButton");
+    var convertirRobuxToMonedaButton = document.getElementById("convertirRobuxToMonedaButton");
+    
+    if (language === "es") {
+        titulo.textContent = "Calculadora de Conversión";
+        monedaAMonedaLabel.textContent = "De Moneda a Robux";
+        monedaRobuxLabel.textContent = "De Robux a Moneda";
+        convertirMonedaToRobuxButton.textContent = "Convertir a Robux";
+        convertirRobuxToMonedaButton.textContent = "Convertir a Moneda";
+    } else if (language === "en") {
+        titulo.textContent = "Conversion Calculator";
+        monedaAMonedaLabel.textContent = "From Currency to Robux";
+        monedaRobuxLabel.textContent = "From Robux to Currency";
+        convertirMonedaToRobuxButton.textContent = "Convert to Robux";
+        convertirRobuxToMonedaButton.textContent = "Convert to Currency";
+    }
+}
+
+function convertirMonedaToRobux() {
+    var monedaSeleccionada = document.getElementById("monedaMoneda").value;
+    var cantidadMoneda = parseFloat(document.getElementById("cantidadMoneda").value);
+    var resultadoMonedaToRobux = document.getElementById("resultadoMonedaToRobux");
+    
+    var tasas = {
+        "M": 17.01,
+        "A": 287.05,
+        "D": 1
+    };
+    
+    if (tasas.hasOwnProperty(monedaSeleccionada)) {
+        var tasa = tasas[monedaSeleccionada];
+        var cantidadRobux = (cantidadMoneda / tasa) * 80;
+        resultadoMonedaToRobux.innerHTML = "Equivalente en Robux: " + cantidadRobux.toFixed(2);
+    } else {
+        resultadoMonedaToRobux.innerHTML = "Moneda no válida. Ingresa M, A o D.";
+    }
+}
+
+function convertirRobuxToMoneda() {
+    var cantidadRobux = parseFloat(document.getElementById("cantidadRobux").value);
+    var monedaSeleccionada = document.getElementById("monedaRobux").value;
+    var resultadoRobuxToMoneda = document.getElementById("resultadoRobuxToMoneda");
+    
+    var tasas = {
+        "M": 17.01,
+        "A": 287.05,
+        "D": 1
+    };
+    
+    if (tasas.hasOwnProperty(monedaSeleccionada)) {
+        var tasa = tasas[monedaSeleccionada];
+        var cantidadMoneda = (cantidadRobux / 80) * tasa;
+        var unidadMoneda = monedaSeleccionada === "D" ? "dólar" : "pesos";
+        var paisMoneda = monedaSeleccionada === "M" ? "mexicanos" : monedaSeleccionada === "A" ? "argentinos" : "";
+        resultadoRobuxToMoneda.innerHTML = "Equivalente en " + unidadMoneda + " " + paisMoneda + ": " + cantidadMoneda.toFixed(2);
+    } else {
+        resultadoRobuxToMoneda.innerHTML = "Moneda no válida. Ingresa M, A o D.";
+    }
+}
+</script>
+</head>
+<body>
+<h1 id="titulo">Calculadora de Conversión</h1>
+<div>
+    <button onclick="setLanguage('es')">Español</button>
+    <button onclick="setLanguage('en')">English</button>
+</div>
+<h2 id="monedaAMonedaLabel">De Moneda a Robux</h2>
+<select id="monedaMoneda">
+    <option value="M">Pesos Mexicanos</option>
+    <option value="A">Pesos Argentinos</option>
+    <option value="D">Dólares</option>
+</select>
+<input type="number" id="cantidadMoneda" placeholder="Cantidad de Moneda">
+<button id="convertirMonedaToRobuxButton" onclick="convertirMonedaToRobux()">Convertir a Robux</button>
+<p id="resultadoMonedaToRobux"></p>
+
+<h2 id="monedaRobuxLabel">De Robux a Moneda</h2>
+<select id="monedaRobux">
+    <option value="M">Pesos Mexicanos</option>
+    <option value="A">Pesos Argentinos</option>
+    <option value="D">Dólares</option>
+</select>
+<input type="number" id="cantidadRobux" placeholder="Cantidad de Robux">
+<button id="convertirRobuxToMonedaButton" onclick="convertirRobuxToMoneda()">Convertir a Moneda</button>
+<p id="resultadoRobuxToMoneda"></p>
+</body>
+</html>
